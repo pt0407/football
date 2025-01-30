@@ -65,4 +65,5 @@ let Goal = sprites.create(img`
     ..........6aaa6.
     ...........666..
     `, SpriteKind.Player)
+football.setTrace()
 football.controlWithArrowKeys()
