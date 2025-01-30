@@ -1,4 +1,5 @@
-let football = darts.create(img`
+let football = darts.create(assets.image`myImage`, SpriteKind.Player)
+let Goal = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
