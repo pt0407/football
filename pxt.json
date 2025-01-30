@@ -2,7 +2,9 @@
     "name": "Football",
     "description": "",
     "dependencies": {
-        "device": "*"
+        "device": "*",
+        "darts": "*",
+        "sprite-scaling": "*"
     },
     "files": [
         "main.blocks",
