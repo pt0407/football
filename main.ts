@@ -1,8 +1,16 @@
+namespace SpriteKind {
+    export const Goal = SpriteKind.create()
+    export const Ball = SpriteKind.create()
+}
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     football.throwDart()
 })
+sprites.onOverlap(SpriteKind.Ball, SpriteKind.Goal, function (sprite, otherSprite) {
+    game.splash("You Scored!")
+    sprites.destroy(football)
+})
 let football: Dart = null
-football = darts.create(assets.image`myImage`, SpriteKind.Player)
+football = darts.create(assets.image`myImage`, SpriteKind.Ball)
 let Goal = sprites.create(img`
     .............cc.
     ............cbbc
@@ -68,6 +76,6 @@ let Goal = sprites.create(img`
     .........6aaaaa6
     ..........6aaa6.
     ...........666..
-    `, SpriteKind.Player)
+    `, SpriteKind.Goal)
 football.setTrace()
 football.controlWithArrowKeys()
