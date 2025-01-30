@@ -79,3 +79,4 @@ let Goal = sprites.create(img`
     `, SpriteKind.Goal)
 football.setTrace()
 football.controlWithArrowKeys()
+Goal.setPosition(125, 57)
