@@ -4,12 +4,17 @@ namespace SpriteKind {
 }
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     football.throwDart()
+    info.changeScoreBy(1)
 })
+function setDefaultPosition () {
+	
+}
 sprites.onOverlap(SpriteKind.Ball, SpriteKind.Goal, function (sprite, otherSprite) {
     game.splash("You Scored!")
     sprites.destroy(football)
 })
 let football: Dart = null
+info.setScore(1)
 football = darts.create(assets.image`myImage`, SpriteKind.Ball)
 let Goal = sprites.create(img`
     .............cc.
@@ -79,4 +84,5 @@ let Goal = sprites.create(img`
     `, SpriteKind.Goal)
 football.setTrace()
 football.controlWithArrowKeys()
-Goal.setPosition(125, 57)
+Goal.setPosition(randint(130, 150), randint(40, 100))
+scaling.scaleToPercent(Goal, 50, ScaleDirection.Uniformly, ScaleAnchor.Middle)
