@@ -52,9 +52,6 @@ function closeShop () {
     setDefaultPosition()
     restoreState()
 }
-function gameReset () {
-    blockSettings.clear()
-}
 function death () {
     game.splash("You Died!", "Your Levels + Coins Reset")
     info.setScore(1)
@@ -347,6 +344,7 @@ if (!(blockSettings.exists("Level"))) {
 forever(function () {
     if (info.life() == 1 && (football.x > 160 || football.x < 0 || (football.y < 0 || football.y > 120))) {
         death()
+        gameIntialize()
     } else if (!(info.life() == 1) && (football.x > 160 || football.x < 0 || (football.y < 0 || football.y > 120))) {
         info.changeLifeBy(-1)
         setDefaultPosition()
