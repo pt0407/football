@@ -10,8 +10,6 @@ namespace SpriteKind {
 sprites.onOverlap(SpriteKind.Cursor, SpriteKind.Close, function (sprite, otherSprite) {
     if (controller.A.isPressed()) {
         closeShop()
-        gameIntialize()
-        restoreState()
         blockSettings.writeNumber("Shop", 0)
     }
 })
@@ -49,7 +47,6 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 function closeShop () {
     destroyAllSprites()
-    setDefaultPosition()
     restoreState()
 }
 function death () {
@@ -57,8 +54,8 @@ function death () {
     info.setScore(1)
     info.setLife(5)
     gameIntialize()
-    saveState()
     destroyAllSprites()
+    saveState()
 }
 function goalIntializer () {
     sprites.destroy(goalpost)
@@ -324,6 +321,7 @@ let shopBlock: Sprite = null
 let EquipBlock: Sprite = null
 let scale = 0
 let goalpost: Sprite = null
+blockSettings.clear()
 if (blockSettings.readNumber("Shop") == 1) {
     closeShop()
 } else {
