@@ -291,6 +291,7 @@ function saveState () {
     blockSettings.writeNumber("Life", info.life())
     blockSettings.writeNumber("GoalX", goalpost.x)
     blockSettings.writeNumber("GoalY", goalpost.y)
+    blockSettings.writeNumber("GoalScale", 0)
 }
 function gameIntialize () {
     setDefaultPosition()
