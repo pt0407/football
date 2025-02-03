@@ -2,8 +2,15 @@ namespace SpriteKind {
     export const Goal = SpriteKind.create()
     export const Ball = SpriteKind.create()
 }
+function restoreState () {
+	
+}
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+	
+})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     football.throwDart()
+    pauseUntil(() => football.vx == 0)
 })
 function goalIntializer () {
     info.setLife(5)
@@ -216,7 +223,7 @@ function goalIntializer () {
             ..........6aaa6.
             ...........666..
             `, SpriteKind.Goal)
-        scale = randint(50, 80)
+        scale = randint(40, 55)
         scaling.scaleToPercent(Goal2, scale, ScaleDirection.Uniformly, ScaleAnchor.Middle)
         Goal2.setPosition(randint(120, 160), randint(10, 110))
     }
@@ -224,6 +231,9 @@ function goalIntializer () {
 function setDefaultPosition () {
     football.stopDart()
     football.setPosition(10, 60)
+}
+function saveState () {
+	
 }
 sprites.onOverlap(SpriteKind.Ball, SpriteKind.Goal, function (sprite, otherSprite) {
     game.splash("You Scored!")
