@@ -392,7 +392,6 @@ let shopBlock: Sprite = null
 let EquipBlock: Sprite = null
 let scale = 0
 let goalpost: Sprite = null
-blockSettings.clear()
 if (blockSettings.readNumber("Shop") == 1) {
     closeShop()
 } else {
