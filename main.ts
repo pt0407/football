@@ -20,6 +20,7 @@ function restoreState () {
     info.setLife(blockSettings.readNumber("Life"))
     gameIntialize()
     goalpost.setPosition(blockSettings.readNumber("GoalX"), blockSettings.readNumber("GoalY"))
+    scaling.scaleToPercent(goalpost, scale, ScaleDirection.Uniformly, ScaleAnchor.Middle)
 }
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     menu()
@@ -291,7 +292,7 @@ function saveState () {
     blockSettings.writeNumber("Life", info.life())
     blockSettings.writeNumber("GoalX", goalpost.x)
     blockSettings.writeNumber("GoalY", goalpost.y)
-    blockSettings.writeNumber("GoalScale", 0)
+    blockSettings.writeNumber("GoalScale", scale)
 }
 function gameIntialize () {
     setDefaultPosition()
@@ -303,6 +304,7 @@ sprites.onOverlap(SpriteKind.Ball, SpriteKind.Goal, function (sprite, otherSprit
     info.setLife(5)
     setDefaultPosition()
     goalIntializer()
+    saveState()
     pause(100)
 })
 function destroyAllSprites () {
@@ -318,12 +320,12 @@ function destroyAllSprites () {
     sprites.destroyAllSpritesOfKind(SpriteKind.Close)
     sprites.destroyAllSpritesOfKind(SpriteKind.Shop)
 }
-let scale = 0
 let football: Dart = null
 let mouse: Sprite = null
 let xBlock: Sprite = null
 let shopBlock: Sprite = null
 let EquipBlock: Sprite = null
+let scale = 0
 let goalpost: Sprite = null
 if (blockSettings.readNumber("Shop") == 1) {
     closeShop()
