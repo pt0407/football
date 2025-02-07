@@ -6,7 +6,9 @@
         "darts": "*",
         "sprite-scaling": "*",
         "arcade-sprite-data": "github:microsoft/arcade-sprite-data#v0.2.1",
-        "settings-blocks": "github:microsoft/pxt-settings-blocks#v1.0.0"
+        "settings-blocks": "github:microsoft/pxt-settings-blocks#v1.0.0",
+        "pxt-status-bar": "github:jwunderl/pxt-status-bar#v0.4.2",
+        "arcade-text": "github:microsoft/arcade-text#v1.3.0"
     },
     "files": [
         "main.blocks",

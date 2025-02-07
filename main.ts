@@ -7,6 +7,9 @@ namespace SpriteKind {
     export const Close = SpriteKind.create()
     export const Shop = SpriteKind.create()
 }
+namespace StatusBarKind {
+    export const Coins = StatusBarKind.create()
+}
 sprites.onOverlap(SpriteKind.Cursor, SpriteKind.Close, function (sprite, otherSprite) {
     if (controller.A.isPressed()) {
         closeShop()
@@ -19,12 +22,13 @@ function restoreState () {
     gameIntialize()
     goalpost.setPosition(blockSettings.readNumber("GoalX"), blockSettings.readNumber("GoalY"))
     scaling.scaleToPercent(goalpost, scale, ScaleDirection.Uniformly, ScaleAnchor.Middle)
+    coins = blockSettings.readNumber("Coins")
 }
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     menu()
 })
 function menu () {
-    saveState()
+    gameSaveState()
     destroyAllSprites()
     blockSettings.writeNumber("Menu", 1)
     EquipBlock = sprites.create(assets.image`equip`, SpriteKind.Equip)
@@ -53,79 +57,14 @@ function death () {
     game.splash("You Died!", "Your Levels + Coins Reset")
     info.setScore(1)
     info.setLife(5)
-    gameIntialize()
+    gameSaveState()
+    restoreState()
     destroyAllSprites()
-    saveState()
 }
 function goalIntializer () {
     sprites.destroy(goalpost)
     if (info.score() == 1) {
-        goalpost = sprites.create(img`
-            .............cc.
-            ............cbbc
-            ............cbbc
-            ...........b9cc.
-            ...........b9bb.
-            ..........b99c..
-            ..........b9bb..
-            .........b99c...
-            .........b9bb...
-            ........b99c....
-            ........b9bb....
-            .......b99c.....
-            .......b9bb.....
-            ......b99c......
-            ......b9bb......
-            .....b99c.......
-            .....b9bb.......
-            ....b99c........
-            ....b9bb........
-            ...b99c.........
-            ...b9bb.........
-            ..b99c..........
-            ..b9bb..........
-            .b99c...........
-            .b9bb...........
-            b99c............
-            b99c............
-            b99c............
-            b99c.........cc.
-            b99c........cbbc
-            b99c........cbbc
-            b99c.......b9cc.
-            b99c.......b9bb.
-            b99c......b99c..
-            b99bccc...b9bb..
-            b99bbbbccc99c...
-            b99bcccbcc9bb...
-            b99b..ccb99c....
-            b99b...cc9bbc...
-            b99b...b99cbc...
-            b99b...b9bbc8c..
-            b99b..b99c.f8c..
-            b99b..b9bb.f8f..
-            b99b.b99c..f8f..
-            b99b.b9bb..f8f..
-            b99bb99c...f8f..
-            b99bb9bb...f8f..
-            b99b99c...cf8fc.
-            b9999bb..cbf8fbc
-            b9999c...cdfffdc
-            b999bb...cdcfcdc
-            c999c....c8ddd8c
-            c99bb....c88888c
-            c99c.....c88888c
-            c9bb.....c88888c
-            .cc......c88888c
-            .........c88888c
-            .........c88888c
-            .........c88888c
-            .........8888888
-            .........8888888
-            .........6888886
-            ..........68886.
-            ...........666..
-            `, SpriteKind.Goal)
+        goalpost = sprites.create(goalList[blockSettings.readNumber("GoalItem")], SpriteKind.Goal)
         scaling.scaleToPercent(goalpost, 100, ScaleDirection.Uniformly, ScaleAnchor.Middle)
         goalpost.setPosition(140, 60)
     }
@@ -352,12 +291,15 @@ function setDefaultPosition () {
     football.setPosition(10, 60)
     scene.setBackgroundColor(15)
 }
-function saveState () {
+function gameSaveState () {
     blockSettings.writeNumber("Level", info.score())
     blockSettings.writeNumber("Life", info.life())
     blockSettings.writeNumber("GoalX", goalpost.x)
     blockSettings.writeNumber("GoalY", goalpost.y)
     blockSettings.writeNumber("GoalScale", scale)
+}
+function menuSaveState () {
+    blockSettings.writeNumber("Coin", coins)
 }
 function gameIntialize () {
     setDefaultPosition()
@@ -369,7 +311,8 @@ sprites.onOverlap(SpriteKind.Ball, SpriteKind.Goal, function (sprite, otherSprit
     info.setLife(5)
     setDefaultPosition()
     goalIntializer()
-    saveState()
+    gameSaveState()
+    coinsSprite += 1
     pause(100)
 })
 function destroyAllSprites () {
@@ -385,6 +328,7 @@ function destroyAllSprites () {
     sprites.destroyAllSpritesOfKind(SpriteKind.Close)
     sprites.destroyAllSpritesOfKind(SpriteKind.Shop)
 }
+let coinsSprite = 0
 let football: Dart = null
 let mouse: Sprite = null
 let xBlock: Sprite = null
@@ -392,6 +336,82 @@ let shopBlock: Sprite = null
 let EquipBlock: Sprite = null
 let scale = 0
 let goalpost: Sprite = null
+let coins = 0
+let goalList: Image[] = []
+let ballList = [
+assets.image`myImage`,
+assets.image`myImage3`,
+assets.image`myImage5`,
+assets.image`goofyahlookinthing`,
+assets.image`goofyahlookinthing0`
+]
+goalList = [img`
+    .............cc.
+    ............cbbc
+    ............cbbc
+    ...........b9cc.
+    ...........b9bb.
+    ..........b99c..
+    ..........b9bb..
+    .........b99c...
+    .........b9bb...
+    ........b99c....
+    ........b9bb....
+    .......b99c.....
+    .......b9bb.....
+    ......b99c......
+    ......b9bb......
+    .....b99c.......
+    .....b9bb.......
+    ....b99c........
+    ....b9bb........
+    ...b99c.........
+    ...b9bb.........
+    ..b99c..........
+    ..b9bb..........
+    .b99c...........
+    .b9bb...........
+    b99c............
+    b99c............
+    b99c............
+    b99c.........cc.
+    b99c........cbbc
+    b99c........cbbc
+    b99c.......b9cc.
+    b99c.......b9bb.
+    b99c......b99c..
+    b99bccc...b9bb..
+    b99bbbbccc99c...
+    b99bcccbcc9bb...
+    b99b..ccb99c....
+    b99b...cc9bbc...
+    b99b...b99cbc...
+    b99b...b9bbc8c..
+    b99b..b99c.f8c..
+    b99b..b9bb.f8f..
+    b99b.b99c..f8f..
+    b99b.b9bb..f8f..
+    b99bb99c...f8f..
+    b99bb9bb...f8f..
+    b99b99c...cf8fc.
+    b9999bb..cbf8fbc
+    b9999c...cdfffdc
+    b999bb...cdcfcdc
+    c999c....c8ddd8c
+    c99bb....c88888c
+    c99c.....c88888c
+    c9bb.....c88888c
+    .cc......c88888c
+    .........c88888c
+    .........c88888c
+    .........c88888c
+    .........8888888
+    .........8888888
+    .........6888886
+    ..........68886.
+    ...........666..
+    `, assets.image`Hoop`]
+let obstacleList = [assets.image`myImage0`]
 if (blockSettings.readNumber("Shop") == 1) {
     closeShop()
 } else {
@@ -403,9 +423,15 @@ if (!(blockSettings.exists("Level"))) {
     game.splash("Press B To Open Menu")
     game.splash("Press A To Throw", "Try To Hit The Goal!")
     game.splash("You Have 5 Tries Each Level", "Try To Get The Highest Score")
+    blockSettings.writeNumber("BallItem", 0)
+    blockSettings.writeNumber("GoalItem", 0)
+    blockSettings.writeNumber("ObstacleItem", 0)
     info.setLife(5)
     info.setScore(1)
+    coins = 1
     gameIntialize()
+} else if (info.score() == 1) {
+    gameSaveState()
 } else {
     restoreState()
 }
@@ -413,6 +439,7 @@ forever(function () {
     if (info.life() == 1 && (football.x > 160 || football.x < 0 || (football.y < 0 || football.y > 120))) {
         death()
         gameIntialize()
+        gameSaveState()
     } else if (!(info.life() == 1) && (football.x > 160 || football.x < 0 || (football.y < 0 || football.y > 120))) {
         info.changeLifeBy(-1)
         setDefaultPosition()
